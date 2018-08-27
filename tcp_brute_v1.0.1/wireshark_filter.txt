@@ -1,0 +1,9 @@
+/******************************************************************************
+*  @brief filter for Wireshark network protocol analyzer, displaying two way
+*         communication between source and destination
+*
+*  @version 1.0.1
+*  @author Ara Khachatryan
+******************************************************************************/
+
+(ip.src == 10.1.1.122 && ip.dst == 10.1.1.16)||(ip.src == 10.1.1.16 && ip.dst == 10.1.1.122)
