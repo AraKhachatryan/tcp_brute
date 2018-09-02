@@ -121,13 +121,15 @@ void* bruteforce_thread( void* thread_arg )
 	thread_data_t* t_data = (thread_data_t*)thread_arg;
 	short int threadID = t_data->thread_id;
 	unsigned long int pw = 0;
-
+	
+	// print thread_id for debugging purpose
 	printf("Thread %d is strarting\n", t_data->thread_id);
 	int count_loop = 0;
 
 	for ( pw = t_data->t_passwd; pw <= t_data->t_pw_range_end; pw++ ) {
 
-		printf("Loop %d from thread %d is strarting\n", count_loop, t_data->thread_id);
+		// print thread loop for debuginng purpose
+//		printf("Loop %d from thread %d is strarting\n", count_loop, t_data->thread_id);
 		++count_loop;
 
 		/*****************************************************************
