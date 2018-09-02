@@ -42,8 +42,6 @@
 #include "search_hex_data.h" /* function for searching hex data in message */
 
 
-static struct timeval t1;
-
 
 short int tcp_login( unsigned char* login_data, char* FCN_msg );
 void debug_FCN( struct timeval t1, char* FCN_msg, char* custom_msg );
@@ -52,6 +50,7 @@ void debug_FCN( struct timeval t1, char* FCN_msg, char* custom_msg );
 
 short int tcp_login( unsigned char* login_data, char* FCN_msg )
 {
+	struct timeval t1;
 	
 	if ( DEBUG_MODE ) {
 		gettimeofday(&t1, NULL);
