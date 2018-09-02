@@ -24,21 +24,23 @@
 *         status message into FCN_msg
 ******************************************************************************/
 
+#include <sys/socket.h> // Core BSD socket functions and data structures
+#include <arpa/inet.h>  // for manipulating IP addresses, for inet_addr()
+#include <unistd.h>     // access to the POSIX operating system API, for close()
+#include <sys/fcntl.h>  // for for fcntl() - the non-blocking sockets
+
 #include <iomanip> // for setw()
-#include <cstring> // for std::strerror()
+#include <cstring> // for std::strerror(errno)
 #include <sstream> // for std::ostringstream
 #include <cerrno>  // for errno error codes in linux
 
-#include <sys/time.h>   // defines the timeval structure, for gettimeofday()
-#include <sys/socket.h> // Core BSD socket functions and data structures
-#include <arpa/inet.h>  // for manipulating IP addresses, for inet_addr()
-
-#include <unistd.h>    // access to the POSIX operating system API, for close()
-#include <sys/fcntl.h> // for the non-blocking socket
-#include <sys/select.h>
+#include <chrono>
+typedef std::chrono::time_point<std::chrono::high_resolution_clock> timer;
 
 
 #include "namespace_terminal.hpp" // namespace terminal
+
+
 
 extern unsigned char COMMAND_LOGIN_FAIL;
 extern unsigned char admin;
@@ -51,7 +53,7 @@ extern bool search_hex_data( unsigned char *haystack, int length_h,
 
 short int tcp_login( unsigned char* login_data, std::string& FCN_msg );
 
-void debug_FCN( struct timeval t1, std::string& FCN_msg,
+void debug_FCN( timer t1, std::string& FCN_msg,
 				const char* custom_msg );
 
 
@@ -60,8 +62,11 @@ void debug_FCN( struct timeval t1, std::string& FCN_msg,
 short int tcp_login( unsigned char* login_data, std::string& FCN_msg )
 {
 
-	struct timeval t1;
-	gettimeofday(&t1, NULL);
+	timer t1;
+	
+	if ( DEBUG_MODE ) {
+		t1 = std::chrono::high_resolution_clock::now();
+	}
 	
 	int socket_desc;
 	struct sockaddr_in target;
@@ -186,7 +191,7 @@ short int tcp_login( unsigned char* login_data, std::string& FCN_msg )
 
 
 
-void debug_FCN(struct timeval t1, std::string& FCN_msg, const char* custom_msg)
+void debug_FCN( timer t1, std::string& FCN_msg, const char* custom_msg )
 {
 	std::ostringstream stringStream;
 	
@@ -200,16 +205,16 @@ void debug_FCN(struct timeval t1, std::string& FCN_msg, const char* custom_msg)
 		stringStream << custom_msg;
 	}
 	
-	struct timeval t2, t;
+	timer t2 = std::chrono::high_resolution_clock::now();
 	
-	gettimeofday(&t2, NULL);
-	timersub(&t2, &t1, &t); // mesure time between t1 and t2 assign to t
-	int dt = t.tv_sec*1000 + t.tv_usec/1000; // dt is elapsed time in ms
+	std::chrono::duration<double, std::milli> dt = t2 - t1;
 	
-	stringStream << terminal::Cursor_Horizontal_Absolute(72);
+	stringStream << terminal::Cursor_Horizontal_Absolute(70);
 	stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_CYAN;
 	
-	stringStream << " " << std::setw(4) << dt << " ms";
+    stringStream << " " << std::setw(7) << std::setprecision(3) << std::left 
+                 << dt.count() << " ms";
+	
 	stringStream << terminal::RESET_ALL;
 	
 	FCN_msg = stringStream.str();

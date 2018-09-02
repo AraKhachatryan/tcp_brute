@@ -8,7 +8,9 @@
 #include <iomanip>  // for setw()
 #include <cstring>  // for memcpy()
 #include <unistd.h> // for sleep()
+
 #include <pthread.h>
+
 #include "namespace_terminal.hpp" // namespace terminal
 
 /******************************************************************************
@@ -21,6 +23,8 @@
 * COMMAND_LOGIN_FAIL[18] - keyword send from target in case of wrong password
 * admin[5] - login name within login message
 ******************************************************************************/
+
+
 
 // enable or disable color printing in linux terminal
 bool terminal_color = true;
@@ -89,6 +93,11 @@ int main( )
 			std::exit(1);
 		}
 	}
+		
+	sleep(4);	
+	std::cout << terminal::TEXT_BOLD << terminal::TEXTCOLOR_MAGENDA
+				<< " +++ ALL DONE +++ " 
+				<< terminal::RESET_ALL << std::endl;
 	
 	// free attribute and wait for the other threads
 	pthread_attr_destroy(&attr);
@@ -169,9 +178,20 @@ void* bruteforce_thread( void* thread_arg )
 		
 		delete [] login_data;
 		
-		if ( result >= 1 )
+		if ( result == -1 )        // core error occurred
+		{
+			continue;
+		} else if ( result == 0 )  // password not match, no errors
+		{
+			continue;
+		} else if ( result == 1 )  // password is found!!!
 		{
 			break;
+			pthread_exit(NULL);
+			
+		} else if ( result == 2 )  // second reply from target not recognized
+		{
+			continue;
 		}
 		
 	} // End for loop
@@ -193,15 +213,13 @@ void thread_debug_msg( std::string& FCN_msg, int threadID,
 	stringStream << terminal::RESET_ALL;
 	stringStream << "PW ";
 	stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_YELLOW;
-	stringStream << std::left << std::setw(6) << passwd;
+	stringStream << std::left << std::setw(8) << passwd;
 	stringStream << terminal::RESET_ALL;
 	
 	stringStream << FCN_msg;
 	stringStream << "\n";
-	
-	std::string thread_msg = stringStream.str();
-	
-	std::cout << thread_msg << std::flush;
+		
+	std::cout << stringStream.str() << std::flush;
 }
 
 
