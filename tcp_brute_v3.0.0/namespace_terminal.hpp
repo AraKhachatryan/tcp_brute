@@ -21,12 +21,15 @@
 
 #include <ostream>
 #include <sstream>
+#include <string>
+
 
 // enable or disable color printing in linux terminal
 extern bool terminal_color;
 
-namespace terminal {
 
+namespace terminal {
+	
 	// Sets SGR(Select Graphic Rendition) parameters, including text colors
 	enum SGR {
 		RESET_ALL          = 0,
@@ -48,7 +51,7 @@ namespace terminal {
 			return stream << "\x1B[" << static_cast<int>(code) << "m";
 		}else{
 			return stream;
-		}        
+		}
 	}
 	
 	
@@ -61,7 +64,7 @@ namespace terminal {
 			return tmp;
 		}else{
 			return "";
-		}  
+		}
 	}
 	
 	// Moves the cursor to column n
@@ -102,7 +105,6 @@ namespace terminal {
 		}
 	}
 	
-	
 	// Scroll whole page up by n (default 1) lines.
 	// New lines are added at the bottom
 	inline std::string Scroll_Up( int n = 1 ){
@@ -131,7 +133,7 @@ namespace terminal {
 			return stream << "\x1B[s";
 		}else{
 			return stream;
-		}        
+		}
 	}
 	
 	// Restores the cursor position
