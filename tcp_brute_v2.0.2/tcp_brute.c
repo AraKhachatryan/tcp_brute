@@ -123,7 +123,7 @@ void* bruteforce_thread( void* thread_arg )
 	unsigned long int pw = 0;
 	
 	// print thread_id for debugging purpose
-	printf("Thread %d is strarting\n", t_data->thread_id);
+//	printf("Thread %d is strarting\n", t_data->thread_id);
 	int count_loop = 0;
 
 	for ( pw = t_data->t_passwd; pw <= t_data->t_pw_range_end; pw++ ) {
