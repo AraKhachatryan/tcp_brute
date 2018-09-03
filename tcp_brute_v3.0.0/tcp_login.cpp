@@ -198,7 +198,7 @@ void debug_FCN( timer t1, std::string& FCN_msg, const char* custom_msg )
 	if ( errno ) {
 		stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_BLUE;
 		stringStream << custom_msg;
-		stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_RED;
+		stringStream << terminal::RESET_ALL << terminal::TEXTCOLOR_RED;
 		stringStream << strerror(errno);
 	} else {
 		stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_GREEN;
@@ -212,8 +212,18 @@ void debug_FCN( timer t1, std::string& FCN_msg, const char* custom_msg )
 	stringStream << terminal::Cursor_Horizontal_Absolute(70);
 	stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_CYAN;
 	
-    stringStream << " " << std::setw(7) << std::setprecision(3) << std::left 
-                 << dt.count() << " ms";
+	if ( dt.count() < 1 )
+	{
+		stringStream << " " << std::setw(7) << std::setprecision(3)
+					 << std::left << dt.count() << " ms";
+	} else if ( dt.count() < 1000 )
+	{
+		stringStream << " " << std::setw(7) << std::setprecision(4)
+					 << std::left << dt.count() << " ms";
+	} else {
+		stringStream << " " << std::setw(7) << std::setprecision(0) << std::fixed 
+					 << std::left << dt.count() << " ms";
+	}    
 	
 	stringStream << terminal::RESET_ALL;
 	
