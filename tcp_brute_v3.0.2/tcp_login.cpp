@@ -175,14 +175,18 @@ void tcp_login::tcp_debug()
 			stringStream << "connect(): ";
 			break;
 		case STATE_FLAGS::ERR_RECV :
-			stringStream << "No " << recv_count << " recv(): ";
+			stringStream << terminal::RESET_ALL << terminal::TEXTCOLOR_BLUE 
+						 << "No" << terminal::TEXT_BOLD 
+						 << recv_count << " recv(): ";
 			break;
 		case STATE_FLAGS::ERR_SEND :
-			stringStream << "No " << send_count << " send(): ";
+			stringStream << terminal::RESET_ALL << terminal::TEXTCOLOR_BLUE 
+						 << "No" << terminal::TEXT_BOLD 
+						 << send_count << " send(): ";
 			break;
 		}
 		
-		stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_RED;
+		stringStream << terminal::RESET_ALL << terminal::TEXTCOLOR_RED;
 		stringStream << strerror(errno);
 		
 	} else {
@@ -213,8 +217,18 @@ void tcp_login::tcp_debug()
 	stringStream << terminal::Cursor_Horizontal_Absolute(70);
 	stringStream << terminal::TEXT_BOLD << terminal::TEXTCOLOR_CYAN;
 	
-	stringStream << " " << std::setw(7) << std::setprecision(3) << std::left 
-				 << dt.count() << " ms";
+	if ( dt.count() < 1 )
+	{
+		stringStream << " " << std::setw(7) << std::setprecision(3)
+					 << std::left << dt.count() << " ms";
+	} else if ( dt.count() < 1000 )
+	{
+		stringStream << " " << std::setw(7) << std::setprecision(4)
+					 << std::left << dt.count() << " ms";
+	} else {
+		stringStream << " " << std::setw(7) << std::setprecision(0) << std::fixed 
+					 << std::left << dt.count() << " ms";
+	}
 	
 	stringStream << terminal::RESET_ALL;
 	
