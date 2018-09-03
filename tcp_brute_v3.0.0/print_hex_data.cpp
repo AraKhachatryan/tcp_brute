@@ -15,7 +15,7 @@
 #include "namespace_terminal.hpp"
 
 
-void print_hex_data( unsigned char *hex_data, unsigned int data_length )
+void print_hex_data( unsigned char *hex_data, size_t data_length )
 {
 	std::ostringstream stringStream;
 	

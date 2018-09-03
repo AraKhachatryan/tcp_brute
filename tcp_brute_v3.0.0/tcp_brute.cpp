@@ -67,7 +67,7 @@ void* bruteforce_thread( void* thread_arg );
 int main( )
 {
 	// test an tcp_login() function for false and true passwords
-	//tcp_login_test();
+	tcp_login_test();
 	
 	int rc;
 	
@@ -252,7 +252,7 @@ void tcp_login_test()
 	std::cout << "tcp_login() -> " << FCN_test_msg << std::endl;
 	FCN_test_msg.clear();
 	
-	sleep(2);
+	sleep(3);
 	
 	std::cout << std::endl;
 }
