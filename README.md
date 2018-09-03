@@ -8,7 +8,7 @@
 
 **Version: 1.0.2 with loadBar**
 
-<img src="https://pbs.twimg.com/media/DloufMTWwAAR5Jq.jpg">
+<img width="642" height="100%" src="https://pbs.twimg.com/media/DloufMTWwAAR5Jq.jpg">
 
 **Version: 3.0.2 implemented with C++11 and MultiThreading**
 
