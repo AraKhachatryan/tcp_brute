@@ -12,6 +12,6 @@
 
 **Version: 3.0.2 implemented with C++11 and MultiThreading**
 
-<img width="642" height="438" src="https://lh6.googleusercontent.com/KL4RPwsaAx3sqUEtyx-zEXOSE0xj_J9gHD4ubgSmkfug_IhK3YZZ2ajjOrlI9Df6BJrY9Jui_xEYW2YK0LCP=w1920-h957">
+<img width="642" height="100%" src="https://lh6.googleusercontent.com/KL4RPwsaAx3sqUEtyx-zEXOSE0xj_J9gHD4ubgSmkfug_IhK3YZZ2ajjOrlI9Df6BJrY9Jui_xEYW2YK0LCP=w1920-h957">
 
 
