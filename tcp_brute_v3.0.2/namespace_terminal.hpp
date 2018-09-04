@@ -26,7 +26,7 @@
 
 
 // enable or disable color printing in linux terminal
-#define terminal_color true
+const bool terminal_color  = true;
 
 
 
