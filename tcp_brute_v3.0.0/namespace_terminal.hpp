@@ -16,6 +16,7 @@
 *  @version 3.0.0
 *  @author Ara Khachatryan
 ******************************************************************************/
+
 #ifndef NAMESPACE_TERMINAL_HPP
 #define NAMESPACE_TERMINAL_HPP
 
@@ -26,6 +27,7 @@
 
 // enable or disable color printing in linux terminal
 extern bool terminal_color;
+
 
 
 namespace terminal {
@@ -45,106 +47,123 @@ namespace terminal {
 		TEXTCOLOR_DEFAULT  = 39,
 	};
 	
+	
 	// operator<< overloaded
-	inline std::ostream& operator<<(std::ostream& stream, SGR code) {
-		if(::terminal_color){
+	inline std::ostream& operator<<( std::ostream& stream, SGR code )
+	{
+		if ( ::terminal_color ) {
 			return stream << "\x1B[" << static_cast<int>(code) << "m";
-		}else{
+		} else {
 			return stream;
 		}
 	}
 	
 	
 	// Moves cursor to beginning of the line n (default 1) lines up
-	inline std::string Cursor_Previous_Line( int n = 1 ){
-		if(::terminal_color){
+	inline std::string Cursor_Previous_Line( int n = 1 )
+	{
+		if ( ::terminal_color ) {
 			std::ostringstream stringStream;
 			stringStream << "\x1B[" << n << "F";
-			std::string tmp = stringStream.str();
-			return tmp;
-		}else{
+			return stringStream.str();
+		} else {
 			return "";
 		}
 	}
+	
 	
 	// Moves the cursor to column n
-	inline std::string Cursor_Horizontal_Absolute( int n ){
-		if(::terminal_color){
+	inline std::string Cursor_Horizontal_Absolute( int n )
+	{
+		if ( ::terminal_color ) {
 			std::ostringstream stringStream;
 			stringStream << "\x1B[" << n << "G";
-			std::string tmp = stringStream.str();
-			return tmp;
-		}else{
+			return stringStream.str();
+		} else {
 			return "";
 		}
 	}
 	
+	
 	// Moves the cursor to row n, column m
-	inline std::string Cursor_Position( int n, int m ){
-		if(::terminal_color){
+	inline std::string Cursor_Position( int n, int m )
+	{
+		if ( ::terminal_color ) {
 			std::ostringstream stringStream;
 			stringStream << "\x1B[" << n << ";" << m << "H";
-			std::string tmp = stringStream.str();
-			return tmp;
-		}else{
+			return stringStream.str();
+		} else {
 			return "";
 		}
 	}
+	
 	
 	// Clears part of the screen. If n is 0 (or missing), clear from cursor to
 	// end of screen. If n is 1, clear from cursor to beginning of the screen.
 	// If n is 2, clear entire screen (and moves cursor to upper left
-	inline std::string Erase_Display(int n = 2){
-		if(::terminal_color){
+	inline std::string Erase_Display( int n = 2 )
+	{
+		if ( ::terminal_color ) {
 			std::ostringstream stringStream;
 			stringStream << "\x1B[" << n << "J";
-			std::string tmp = stringStream.str();
-			return tmp;
-		}else{
+			return stringStream.str();
+		} else {
 			return "";
 		}
 	}
+	
 	
 	// Scroll whole page up by n (default 1) lines.
 	// New lines are added at the bottom
-	inline std::string Scroll_Up( int n = 1 ){
-		if(::terminal_color){
+	inline std::string Scroll_Up( int n = 1 )
+	{
+		if ( ::terminal_color ) {
 			std::ostringstream stringStream;
 			stringStream << "\x1B[" << n << "S";
-			std::string tmp = stringStream.str();
-			return tmp;
-		}else{
+			return stringStream.str();
+		} else {
 			return "";
 		}
 	}
 	
+	
 	// Scroll whole page down by n (default 1) lines.
 	// New lines are added at the top
-	inline std::string Scroll_Down( int n = 1 ){
-		std::ostringstream stringStream;
-		stringStream << "\x1B[" << n << "T";
-		std::string tmp = stringStream.str();
-		return tmp;
+	inline std::string Scroll_Down( int n = 1 )
+	{
+		if ( terminal_color ) {
+			std::ostringstream stringStream;
+			stringStream << "\x1B[" << n << "T";
+			return stringStream.str();
+		} else {
+			return "";
+		}
 	}
+	
 	
 	// Saves the cursor position
-	inline std::ostream& Save_Cursor_Position(std::ostream& stream){
-		if(::terminal_color){
+	inline std::ostream& Save_Cursor_Position( std::ostream& stream )
+	{
+		if( ::terminal_color ) {
 			return stream << "\x1B[s";
-		}else{
+		} else {
 			return stream;
 		}
 	}
 	
+	
 	// Restores the cursor position
-	inline std::ostream& Restore_Cursor_Position(std::ostream& stream){
-		if(::terminal_color){
+	inline std::ostream& Restore_Cursor_Position( std::ostream& stream )
+	{
+		if ( ::terminal_color ) {
 			return stream << "\x1B[u";
-		}else{
+		} else {
 			return stream;
 		}
 	}
+	
 	
 }
 
 #endif // NAMESPACE_TERMINAL_HPP
+
